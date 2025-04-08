@@ -1,0 +1,94 @@
+﻿@page
+@model GolfClubReservationSystem.Pages.DashboardModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<style>
+    .dashboard-container {
+        background-color: rgba(0, 0, 0, 0.6);
+        padding: 2.5rem;
+        border-radius: 15px;
+        color: white;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+        max-width: 700px;
+        margin: auto;
+    }
+
+    .dashboard-heading {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        font-weight: bold;
+        color: #ffffff;
+    }
+
+    .dashboard-actions a {
+        display: block;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 10px;
+        text-decoration: none;
+        text-align: center;
+        font-size: 1.1rem;
+        transition: all 0.3s ease-in-out;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+        .dashboard-actions a:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px);
+        }
+
+    .dashboard-actions li {
+        list-style-type: none;
+    }
+</style>
+
+<div class="dashboard-container mt-5">
+    <div class="dashboard-heading">Dashboard</div>
+
+    <ul class="dashboard-actions">
+        @if (Model.UserRole == "player")
+        {
+            <li><a asp-page="/BookTeeTime">Book Tee Time</a></li>
+            <li><a asp-page="/ModifyTeeTime">Modify Tee Time</a></li>
+            <li><a asp-page="/ViewPlayerHandicap">View Player Handicap</a></li>
+            <li><a asp-page="/RecordPlayerScore">Record Player Score</a></li>
+        }
+        else if (Model.UserRole == "pro shop staff")
+        {
+            <li><a asp-page="/BookTeeTime">Book Tee Time</a></li>
+            <li><a asp-page="/ModifyTeeTime">Modify Tee Time</a></li>
+        }
+        else if (Model.UserRole == "clerk")
+        {
+            <li><a asp-page="/BookTeeTime">Book Tee Time</a></li>
+            <li><a asp-page="/ModifyTeeTime">Modify Tee Time</a></li>
+            <li><a asp-page="/ViewPlayerHandicap">View Player Handicap</a></li>
+        }
+        else if (Model.UserRole == "member")
+        {
+            <li><a asp-page="/ViewMemberAccount">View Member Account</a></li>
+        }
+        else if (Model.UserRole == "finance committee")
+        {
+            <li><a asp-page="/ViewMemberAccount">View Member Account</a></li>
+        }
+        else if (Model.UserRole == "membership committee")
+        {
+            <li><a asp-page="/MembershipCommitteeDashboard">Membership Committee Dashboard</a></li>
+        }
+        else if (Model.UserRole == "shareholder")
+        {
+            <li><a asp-page="/BookStandinTeeTime">Book Standing Tee Time</a></li>
+            <li><a asp-page="/CancelStandingTeeTime">Cancel Standing Tee Time</a></li>
+        }
+        else
+        {
+            <li><span>Your role does not have booking permissions.</span></li>
+        }
+    </ul>
+</div>

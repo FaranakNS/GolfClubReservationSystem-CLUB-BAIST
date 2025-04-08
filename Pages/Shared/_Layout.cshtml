@@ -1,0 +1,64 @@
+﻿@using Microsoft.AspNetCore.Http
+@{
+    var username = Context.Session.GetString("Username");
+    var role = Context.Session.GetString("UserRole");
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - Golf Club Reservation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        body {
+            background: url('/images/club.webp') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .overlay-box {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            min-width: 300px;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .footer {
+            margin-top: 2rem;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 1rem 2rem;
+            text-align: center;
+            color: white;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay-box">
+        @RenderBody()
+    </div>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

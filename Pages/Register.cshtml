@@ -1,0 +1,100 @@
+﻿@page
+@model GolfClubReservationSystem.Pages.RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>Register</h1>
+<form method="post">
+    <table>
+        <tr>
+            <td><label asp-for="MemberName"></label></td>
+            <td>
+                <input asp-for="MemberName" />
+                <span asp-validation-for="MemberName"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label asp-for="Occupation"></label></td>
+            <td>
+                <input asp-for="Occupation" />
+                <span asp-validation-for="Occupation"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label asp-for="CompanyName"></label></td>
+            <td>
+                <input asp-for="CompanyName" />
+                <span asp-validation-for="CompanyName"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label asp-for="Address"></label></td>
+            <td>
+                <input asp-for="Address" />
+                <span asp-validation-for="Address"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label asp-for="PostalCode"></label></td>
+            <td>
+                <input asp-for="PostalCode" />
+                <span asp-validation-for="PostalCode"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label asp-for="Phone"></label></td>
+            <td>
+                <input asp-for="Phone" />
+                <span asp-validation-for="Phone"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label asp-for="AlternatePhone"></label></td>
+            <td>
+                <input asp-for="AlternatePhone" />
+                <span asp-validation-for="AlternatePhone"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label asp-for="Email"></label></td>
+            <td>
+                <input asp-for="Email" />
+                <span asp-validation-for="Email"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label asp-for="DateOfBirth"></label></td>
+            <td>
+                <input asp-for="DateOfBirth" type="date" />
+                <span asp-validation-for="DateOfBirth"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label asp-for="MembershipLevel"></label></td>
+            <td>
+                <select asp-for="MembershipLevel">
+                    <option value="">Select Membership Level</option>
+                    <option value="Copper">Copper</option>
+                    <option value="Bronze">Bronze</option>
+                    <option value="Silver">Silver</option>
+                    <option value="Gold">Gold</option>
+                </select>
+                <span asp-validation-for="MembershipLevel"></span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button type="submit">Register</button>
+            </td>
+        </tr>
+    </table>
+</form>
+
+<div style="color:green">
+    @Model.Message
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

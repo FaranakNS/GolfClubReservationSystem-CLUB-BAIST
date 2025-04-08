@@ -1,0 +1,100 @@
+﻿@page
+@{
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View HTTP Request</title>
+</head>
+<body>
+    <h1>@Request.ToString()</h1>
+    @if (Request.QueryString.HasValue)
+    {
+        <strong>Query String:&nbsp;</strong>@Request.QueryString<br /><br />
+    }
+    <table border="1">
+        <tr>
+            <td align="right"><strong>Method:</strong></td>
+            <td>@Request.Method</td>
+        </tr>
+        <tr>
+            <td align="right"><strong>Path:</strong></td>
+            <td>@Request.Path</td>
+        </tr>
+        <tr>
+            <td align="right"><strong>Protocol:</strong></td>
+            <td>@Request.Protocol</td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center"><h2>Headers</h2></td>
+        </tr>
+        @foreach (var Header in Request.Headers)
+        {
+            <tr>
+                <td align="right"><strong>@Header.Key:</strong></td>
+                <td>@Header.Value</td>
+            </tr>
+        }
+        @if (Request.HasFormContentType)
+        {
+            <tr>
+                <td colspan="2" align="center"><h2>Form</h2></td>
+            </tr>
+            @foreach (var FormItem in Request.Form)
+            {
+                <tr>
+                    <td align="right"><strong>@FormItem.Key:</strong></td>
+                    <td>@FormItem.Value</td>
+                </tr>
+            }
+        }
+    </table>
+</body>
+</html>
+<!--
+    Hypertext transfer protocol (HTTP) is the core communications protocol used to access the World Wide Web (www)
+
+    Uses a message based model, a client sends a request message and the server returns a response mesage
+
+    Uniform resource locator (URL), unique identifier for a web resource
+    format of most URLs:  protocol://hostname[:port]/[path/]file[?param=value]
+
+    All HTTP messages consist of one or more headers,
+    each on a separate line, followed by a mandatory blank line, followed by an optional message body
+
+    HTTP Request
+    First line has 3 items, separated by spaces:  verb indicating the HTTP method, requested URL, HTTP version used
+    Other points of interest:
+    Referer header - URL from which th request originated
+    User-Agent header - information about browser/client software that generated the request
+    Host header - hostname that appeared in the full URL accessed
+    Cookie header - additional parameters that the server has issued to the client
+
+    HTTP Response
+    First line has 3 items, separated by spaces: HTTP version used, numeric status code, textual reason phrase (status of response)
+    Other points of interest:
+    Server header - web server software being used, sometimes other details and server operating system (information may not be accurate)
+    Set-Cookie header - issues the browser a further cookie, submitted back in Cookie header of subsequent requests to this server
+    Pragma header - instructs the browser about storing the response in cache
+    Expires header - if response content expired, should not be cached
+
+    Almost all contain a message body following the blank line after the headers
+    Content-Type header - type of content message contains
+    Content-Length header - lenght of message body in bytes
+
+    HTTP Methods most commonly used
+
+    GET - Designed to retrieve resources
+    can send parameters to the requested resource in the URL query string
+    allows users to bookmark a URL
+    URL is displayed on screen and logged in various places (browser history)
+    URL also transmitted in Referer header to other sites when external links are followed
+    the query string should not be used to transmit anything sensitive
+
+    POST - Designed to perform actions
+    parameters can be sent both in the URL query string and in the body of the message
+    any parameters sent in the message body are excluded from bookmarks, URL logs, and the Referer header
+    prevents from unwittingly performing an action more than once (back button & warning)
+    POST requests should always be used when an action is being performed
+
+-->

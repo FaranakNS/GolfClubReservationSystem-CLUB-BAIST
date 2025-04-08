@@ -1,0 +1,79 @@
+﻿
+@page
+@model GolfClubReservationSystem.Pages.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<style>
+    .login-card {
+        background-color: rgba(0, 0, 0, 0.6);
+        padding: 2.5rem;
+        border-radius: 15px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+        width: 100%;
+        max-width: 400px;
+        color: white;
+    }
+
+        .login-card input.form-control {
+            background-color: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem;
+            transition: box-shadow 0.3s ease;
+        }
+
+            .login-card input.form-control:focus {
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            }
+
+        .login-card button {
+            background-color: #28a745;
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem;
+            width: 100%;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+            .login-card button:hover {
+                background-color: #218838;
+            }
+
+        .login-card .error-message {
+            color: #ff5e5e;
+            margin-top: 0.5rem;
+        }
+
+    h1 {
+        margin-bottom: 1.5rem;
+        text-align: center;
+        font-weight: bold;
+    }
+</style>
+
+<div class="login-card mx-auto mt-5">
+    <h1>Login</h1>
+    <form method="post">
+        <div class="mb-3">
+            <input asp-for="Username" class="form-control" placeholder="Username" />
+            <span asp-validation-for="Username" class="text-warning small"></span>
+        </div>
+        <div class="mb-3">
+            <input asp-for="Password" type="password" class="form-control" placeholder="Password" />
+            <span asp-validation-for="Password" class="text-warning small"></span>
+        </div>
+        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+        {
+            <div class="error-message">@Model.ErrorMessage</div>
+        }
+        <button type="submit">Login</button>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
