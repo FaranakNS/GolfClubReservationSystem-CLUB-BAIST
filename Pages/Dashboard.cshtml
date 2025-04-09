@@ -4,91 +4,133 @@
     ViewData["Title"] = "Dashboard";
 }
 
+<!-- Classy Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Open+Sans&display=swap" rel="stylesheet">
+
 <style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: 'Open Sans', sans-serif;
+        background: url('/images/club.webp') no-repeat center center fixed;
+        background-size: cover;
+    }
+
+    .dashboard-wrapper {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     .dashboard-container {
-        background-color: rgba(0, 0, 0, 0.6);
-        padding: 2.5rem;
-        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(15px);
+        padding: 3rem 2rem;
+        border-radius: 25px;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
         color: white;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
-        max-width: 700px;
-        margin: auto;
+        width: 90%;
+        max-width: 900px;
+        min-height: 500px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
     }
 
     .dashboard-heading {
-        text-align: center;
+        font-family: 'Playfair Display', serif;
         font-size: 2.5rem;
         margin-bottom: 2rem;
-        font-weight: bold;
-        color: #ffffff;
-    }
-
-    .dashboard-actions a {
-        display: block;
-        background-color: rgba(255, 255, 255, 0.1);
-        color: white;
-        padding: 1rem;
-        margin-bottom: 1rem;
-        border-radius: 10px;
-        text-decoration: none;
+        color: gold;
         text-align: center;
-        font-size: 1.1rem;
-        transition: all 0.3s ease-in-out;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     }
 
-        .dashboard-actions a:hover {
-            background-color: rgba(255, 255, 255, 0.25);
-            transform: translateY(-3px);
+    .dashboard-actions {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.2rem;
+        width: 100%;
+        padding: 0;
+        list-style: none;
+    }
+
+        .dashboard-actions a {
+            display: block;
+            padding: 1rem;
+            background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            border-radius: 15px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: 0.3s ease;
         }
 
-    .dashboard-actions li {
-        list-style-type: none;
+            .dashboard-actions a:hover {
+                background: gold;
+                color: black;
+                transform: translateY(-3px);
+                box-shadow: 0 10px 15px rgba(255, 215, 0, 0.3);
+            }
+
+
+    .dashboard-container {
+        padding: 2rem 1rem;
+        width: 95%;
     }
+
+    
 </style>
 
-<div class="dashboard-container mt-5">
-    <div class="dashboard-heading">Dashboard</div>
+<div class="dashboard-wrapper">
+    <div class="dashboard-container">
+        <div class="dashboard-heading">Welcome to Your Dashboard</div>
 
-    <ul class="dashboard-actions">
-        @if (Model.UserRole == "player")
-        {
-            <li><a asp-page="/BookTeeTime">Book Tee Time</a></li>
-            <li><a asp-page="/ModifyTeeTime">Modify Tee Time</a></li>
-            <li><a asp-page="/ViewPlayerHandicap">View Player Handicap</a></li>
-            <li><a asp-page="/RecordPlayerScore">Record Player Score</a></li>
-        }
-        else if (Model.UserRole == "pro shop staff")
-        {
-            <li><a asp-page="/BookTeeTime">Book Tee Time</a></li>
-            <li><a asp-page="/ModifyTeeTime">Modify Tee Time</a></li>
-        }
-        else if (Model.UserRole == "clerk")
-        {
-            <li><a asp-page="/BookTeeTime">Book Tee Time</a></li>
-            <li><a asp-page="/ModifyTeeTime">Modify Tee Time</a></li>
-            <li><a asp-page="/ViewPlayerHandicap">View Player Handicap</a></li>
-        }
-        else if (Model.UserRole == "member")
-        {
-            <li><a asp-page="/ViewMemberAccount">View Member Account</a></li>
-        }
-        else if (Model.UserRole == "finance committee")
-        {
-            <li><a asp-page="/ViewMemberAccount">View Member Account</a></li>
-        }
-        else if (Model.UserRole == "membership committee")
-        {
-            <li><a asp-page="/MembershipCommitteeDashboard">Membership Committee Dashboard</a></li>
-        }
-        else if (Model.UserRole == "shareholder")
-        {
-            <li><a asp-page="/BookStandinTeeTime">Book Standing Tee Time</a></li>
-            <li><a asp-page="/CancelStandingTeeTime">Cancel Standing Tee Time</a></li>
-        }
-        else
-        {
-            <li><span>Your role does not have booking permissions.</span></li>
-        }
-    </ul>
+        <ul class="dashboard-actions">
+            @if (Model.UserRole == "player")
+            {
+                <li><a asp-page="/BookTeeTime">Book Tee Time</a></li>
+                <li><a asp-page="/UpdateTeeTime">Manage Tee Time</a></li>
+                <li><a asp-page="/RecordPlayerScore">Record Score</a></li>
+            }
+            else if (Model.UserRole == "pro shop staff")
+            {
+                <li><a asp-page="/BookTeeTime">Book Tee Time</a></li>
+                <li><a asp-page="/ModifyTeeTime">Update Tee Time</a></li>
+            }
+            else if (Model.UserRole == "clerk")
+            {
+                <li><a asp-page="/BookTeeTime">Book Tee Time</a></li>
+                <li><a asp-page="/UpdateTeeTime">Manage Tee Time</a></li>
+                
+                <li><a asp-page="/ViewPlayerHandicap">View Handicap</a></li>
+            }
+            else if (Model.UserRole == "member")
+            {
+                <li><a asp-page="/ViewMemberAccount">View Account</a></li>
+            }
+            else if (Model.UserRole == "finance committee")
+            {
+                <li><a asp-page="/ViewMemberAccount">View Account</a></li>
+            }
+            else if (Model.UserRole == "membership committee")
+            {
+                <li><a asp-page="/MembershipCommitteeDashboard">Membership Dashboard</a></li>
+            }
+            else if (Model.UserRole == "shareholder")
+            {
+                <li><a asp-page="/BookStandinTeeTime">Book Standing Tee Time</a></li>
+                <li><a asp-page="/CancelStandingTeeTime">Cancel Standing Tee Time</a></li>
+            }
+            else
+            {
+                <li><span style="opacity: 0.7;">Your role does not have booking permissions.</span></li>
+            }
+        </ul>
+    </div>
 </div>

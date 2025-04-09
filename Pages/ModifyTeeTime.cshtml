@@ -1,0 +1,150 @@
+﻿@page
+@model GolfClubReservationSystem.Pages.ModifyTeeTimeModel
+@{
+    ViewData["Title"] = "Modify Tee Time Booking";
+}
+
+
+<style>
+    .form-container {
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 30px;
+        background-color: rgba(20, 20, 20, 0.85); /* Dark background */
+        border-radius: 16px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+
+    body {
+        background: url('/images/club.webp') no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #2c3e50;
+    }
+
+
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 6px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    input[type="time"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 15px;
+    }
+
+    .button-group {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .btn {
+        padding: 10px 18px;
+        font-size: 15px;
+        border: none;
+        border-radius: 6px;
+        background-color: #2ecc71;
+        color: white;
+        cursor: pointer;
+    }
+
+        .btn:hover {
+            background-color: #27ae60;
+        }
+
+    .validation-error {
+        color: #e74c3c;
+        font-size: 13px;
+        margin-top: 4px;
+    }
+
+    .message {
+        text-align: center;
+        margin-top: 20px;
+        font-weight: bold;
+        color: green;
+    }
+</style>
+
+<div class="form-container">
+    <h2>Update Tee Time</h2>
+
+    <form method="post">
+        <!-- Search section -->
+        <div>
+            <label asp-for="MemberId"></label>
+            <input asp-for="MemberId" />
+            <span asp-validation-for="MemberId"></span>
+        </div>
+        <button type="submit" name="submit" value="FetchDetails">Find Booking</button>
+
+        <hr />
+
+        @if (Model.IsBookingFound)
+        {
+            <!-- Hidden field to store the unique booking id -->
+            <input type="hidden" asp-for="BookingId" />
+
+            <div>
+                <label asp-for="MemberName"></label>
+                <input asp-for="MemberName" />
+                <span asp-validation-for="MemberName"></span>
+            </div>
+            
+            <div>
+                <label asp-for="MembershipLevel"></label>
+                <input asp-for="MembershipLevel" />
+                <span asp-validation-for="MembershipLevel"></span>
+            </div>
+            <div>
+                <label asp-for="StandingStatus"></label>
+                <input asp-for="StandingStatus" />
+                <span asp-validation-for="StandingStatus"></span>
+            </div>
+            <div>
+                <label asp-for="Date"></label>
+                <input asp-for="Date" type="date" />
+                <span asp-validation-for="Date"></span>
+            </div>
+            <div>
+                <label asp-for="Time"></label>
+                <input asp-for="Time" type="time" />
+                <span asp-validation-for="Time"></span>
+            </div>
+            <div>
+                <label asp-for="NumberOfPlayers"></label>
+                <input asp-for="NumberOfPlayers" type="number" />
+                <span asp-validation-for="NumberOfPlayers" class="validation-error"></span>
+            </div>
+
+            <div>
+                <label asp-for="NumberOfCarts"></label>
+                <input asp-for="NumberOfCarts" type="number" />
+                <span asp-validation-for="NumberOfCarts" class="validation-error"></span>
+            </div>
+            <button type="submit" name="submit" value="UpdateBooking">Update Booking</button>
+        }
+    </form>
+</div>
+
+<div style="color:yellow">@Model.Message</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+

@@ -1,0 +1,176 @@
+﻿@page
+@model GolfClubReservationSystem.Pages.BookTeeTimeModel
+@{
+    ViewData["Title"] = "Book Tee Time";
+    var today = DateTime.Now.ToString("yyyy-MM-dd");
+    var max = DateTime.Now.AddDays(7).ToString("yyyy-MM-dd");
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: url('/images/club.webp') no-repeat center center fixed;
+        background-size: cover;
+        margin: 0;
+        padding: 0;
+        color: white;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 2.8rem;
+        margin-top: 2rem;
+        color: #f2f2f2;
+        letter-spacing: 1px;
+        font-family: 'Playfair Display', serif;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    td {
+        padding: 0.2rem 0.5rem;
+        vertical-align: top;
+        font-size: 1.05rem;
+        color: #e6e6e6;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    input[type="time"],
+    select {
+        width: 100%;
+        padding: 0.7rem;
+        border-radius: 10px;
+        border: none;
+        background-color: #f9f9f9;
+        color: #333;
+        font-size: 1rem;
+    }
+
+    input[readonly] {
+        background-color: #eee;
+        color: #555;
+    }
+
+    input[type="submit"] {
+        padding: 0.8rem 2.5rem;
+        background-color: #f5c842;
+        color: #222;
+        font-weight: 600;
+        font-size: 1.1rem;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        input[type="submit"]:hover {
+            background-color: #ffe680;
+            transform: scale(1.03);
+        }
+
+    span {
+        color: #ffb3b3;
+        font-size: 0.85rem;
+    }
+
+    p {
+        text-align: center;
+        margin-top: 1rem;
+        font-size: 1rem;
+        color: lightgreen !important;
+        font-weight: 600;
+    }
+</style>
+
+<h1>Book Tee Time</h1>
+
+<form method="post">
+    <table>
+        <tr>
+            <td style="vertical-align: middle; font-size: 1.1rem;">Member Id:</td>
+            <td colspan="2">
+                <div style="display: flex; align-items: center; gap: 14px;">
+                    <input asp-for="MemberId"
+                           style="flex: 1; max-width: 250px; padding: 0.85rem 1.2rem; border-radius: 14px; border: none;
+                          background-color: #fff; color: #333; font-size: 1.2rem; font-weight: 600;
+                          box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);" />
+                </div>
+                <div>
+                    <input type="submit" name="submit" value="MemberDetails" />
+                </div>
+                <span asp-validation-for="MemberId" style="color: #ffb3b3; font-size: 0.9rem;"></span>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Member Name:</td>
+            <td>
+                <input asp-for="MemberName" readonly value="@TempData["MemberName"]" />
+            </td>
+        </tr>
+
+        <tr>
+            <td>Membership Level:</td>
+            <td>
+                <select asp-for="MembershipLevel">
+                    <option value="Gold">Gold</option>
+                    <option value="Silver">Silver</option>
+                    <option value="Bronze">Bronze</option>
+                </select>
+                <span asp-validation-for="MembershipLevel"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>Standing Status:</td>
+            <td>
+                <select asp-for="StandingStatus">
+                    <option value="Good">Good</option>
+                    <option value="Bad">Bad</option>
+                    <option value="Under Observation">Under Observation</option>
+                </select>
+                <span asp-validation-for="StandingStatus"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>Date:</td>
+            <td>
+                <input asp-for="Date" type="date" min="@today" max="@max" />
+                <span asp-validation-for="Date"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>Time:</td>
+            <td>
+                <input asp-for="Time" type="time" />
+                <span asp-validation-for="Time"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>Number Of Players:</td>
+            <td>
+                <input asp-for="NumberOfPlayers"/>
+              
+            </td>
+        </tr>
+        <tr>
+            <td>Number Of Carts:</td>
+            <td>
+                <input asp-for="NumberOfCarts" type="number" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="text-align: center;">
+                <input type="submit" name="submit" value="Submit" />
+            </td>
+        </tr>
+    </table>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.Message))
+{
+    <p style="color: green;">@Model.Message</p>
+}

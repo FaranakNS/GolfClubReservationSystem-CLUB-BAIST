@@ -14,6 +14,8 @@ namespace GolfClubReservationSystem
             builder.Logging.ClearProviders();
             builder.Logging.AddConsole(); // Enable console logging
             builder.Logging.AddDebug();   // Enable debug logging
+          
+
 
             // Register configuration
             builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
