@@ -1,0 +1,39 @@
+﻿@page
+@model GolfClubReservationSystem.Pages.CancelTeeTimeModel
+@{
+    ViewData["Title"] = "Cancel Standing Tee Time";
+}
+
+<h2>Cancel Standing Tee Time</h2>
+
+<form method="post">
+    <div>
+        <label>Standing Tee Time ID:</label>
+        <input asp-for="StandingTeeTimeID" />
+        <span asp-validation-for="StandingTeeTimeID" class="text-danger"></span>
+    </div>
+    <br />
+    <button type="submit" name="submit" value="FetchBooking">Fetch Booking</button>
+
+    @if (Model.IsBookingFound)
+    {
+        <hr />
+        <p><strong>Member 1:</strong> @Model.MemberName</p>
+        <p><strong>Member 2:</strong> @Model.MemberName2</p>
+        <p><strong>Member 3:</strong> @Model.MemberName3</p>
+        <p><strong>Member 4:</strong> @Model.MemberName4</p>
+        <p><strong>Day of Week:</strong> @Model.RequestedDayOfWeek</p>
+        <p><strong>Start Date:</strong> @Model.RequestedStartDate.ToShortDateString()</p>
+        <p><strong>End Date:</strong> @Model.RequestedEndDate.ToShortDateString()</p>
+        <p><strong>Tee Time:</strong> @Model.RequestedTeeTime</p>
+
+        <button type="submit" name="submit" value="CancelBooking" style="background-color:red;color:white;padding:8px 16px;margin-top:10px;border:none;border-radius:5px;">
+            Cancel Booking
+        </button>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.Message))
+    {
+        <p style="color: limegreen; margin-top: 1rem;">@Model.Message</p>
+    }
+</form>

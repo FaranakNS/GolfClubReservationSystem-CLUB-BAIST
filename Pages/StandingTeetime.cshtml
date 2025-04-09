@@ -1,0 +1,174 @@
+﻿@page
+@model GolfClubReservationSystem.Pages.StandingTeetimeModel
+@{
+
+    ViewData["Title"] = "Standing Tee Time";
+}
+
+
+
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    html, body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Open Sans', sans-serif;
+        height: 100%;
+        background: url('/images/club.webp') no-repeat center center fixed;
+        background-size: cover;
+        overflow-y: auto;
+    }
+
+    .form-wrapper {
+        padding: 3rem 1rem;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .form-container {
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(15px);
+        border-radius: 20px;
+        box-shadow: 0 12px 20px rgba(0,0,0,0.4);
+        padding: 2rem;
+        color: white;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.2rem;
+        margin-bottom: 1rem;
+    }
+
+    label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 0.3rem;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 0.5rem;
+        font-size: 1rem;
+        border-radius: 8px;
+        border: none;
+        color: #333;
+    }
+
+    .submit-row {
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    input[type="submit"] {
+        background-color: #4e73df;
+        color: white;
+        font-weight: bold;
+        padding: 0.75rem 2rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+        border: none;
+    }
+
+        input[type="submit"]:hover {
+            background-color: #2e59d9;
+        }
+
+    .message {
+        text-align: center;
+        color: #00ffba;
+        margin-top: 1rem;
+        font-size: 1rem;
+    }
+</style>
+
+
+<div class="wrapper">
+    <div class="form-box">
+        <h1>Standing Tee Time</h1>
+
+        <form method="post">
+            <div class="form-group">
+                <label>Member ID 1:</label>
+                <input asp-for="MemberID" />
+            </div>
+            <div class="form-group">
+                <label>Member Name 1:</label>
+                <input asp-for="MemberName" />
+            </div>
+
+            <div class="form-group">
+                <label>Member ID 2:</label>
+                <input asp-for="MemberID2" />
+            </div>
+            <div class="form-group">
+                <label>Member Name 2:</label>
+                <input asp-for="MemberName2" />
+            </div>
+
+            <div class="form-group">
+                <label>Member ID 3:</label>
+                <input asp-for="MemberID3" />
+            </div>
+            <div class="form-group">
+                <label>Member Name 3:</label>
+                <input asp-for="MemberName3" />
+            </div>
+
+            <div class="form-group">
+                <label>Member ID 4:</label>
+                <input asp-for="MemberID4" />
+            </div>
+            <div class="form-group">
+                <label>Member Name 4:</label>
+                <input asp-for="MemberName4" />
+            </div>
+
+            <div class="form-group">
+                <label>Requested Day of Week:</label>
+                <select asp-for="RequestedDayOfWeek">
+                    <option>Monday</option>
+                    <option>Tuesday</option>
+                    <option>Wednesday</option>
+                    <option>Thursday</option>
+                    <option>Friday</option>
+                    <option>Saturday</option>
+                    <option>Sunday</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Requested Tee Time:</label>
+                <input asp-for="RequestedTeeTime" type="time" />
+            </div>
+
+            <div class="form-group">
+                <label>Requested Start Date:</label>
+                <input asp-for="RequestedStartDate" type="date" />
+            </div>
+
+            <div class="form-group">
+                <label>Requested End Date:</label>
+                <input asp-for="RequestedEndDate" type="date" />
+            </div>
+
+            <input type="submit" value="Submit" />
+        </form>
+
+        @if (!string.IsNullOrEmpty(Model.Message))
+        {
+            <div class="message">@Model.Message</div>
+        }
+    </div>
+</div>

@@ -55,6 +55,28 @@
     <div class="overlay-box">
         @RenderBody()
     </div>
+    @{
+        var currentPage = Context.Request.Path.Value?.ToLower();
+        bool showLogout = !currentPage.Contains("/sign") && !currentPage.Contains("/login") && !currentPage.Contains("/index");
+    }
+
+    @if (showLogout)
+    {
+        <form asp-page="/Logout" method="post" style="position: absolute; top: 20px; right: 20px;">
+            <button type="submit" style="
+            padding: 8px 16px;
+            background-color: #348a40;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: 'Open Sans', sans-serif;
+            ">
+                Logout
+            </button>
+        </form>
+    }
 
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -24,10 +24,12 @@ namespace GolfClubReservationSystem.Pages
 
         [BindProperty]
         [Required(ErrorMessage = "Membership level is required.")]
+        [StringLength(50)]
         public string MembershipLevel { get; set; }
 
         [BindProperty]
         [Required(ErrorMessage = "Standing status is required.")]
+        [StringLength(50)]
         public string StandingStatus { get; set; }
 
         [BindProperty]
@@ -46,7 +48,6 @@ namespace GolfClubReservationSystem.Pages
         public int NumberOfPlayers { get; set; }
 
         [BindProperty]
-     
         public int NumberOfCarts { get; set; }
 
         public string Message { get; set; }
@@ -74,7 +75,7 @@ namespace GolfClubReservationSystem.Pages
             }
 
             using SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
-            string query = "SELECT MemberName FROM Member WHERE MemberId = @MemberId";
+            string query = "SELECT MemberName, MembershipLevel FROM Member WHERE MemberId = @MemberId";
 
             using SqlCommand command = new SqlCommand(query, connection);
             command.Parameters.AddWithValue("@MemberId", MemberId);
@@ -85,7 +86,11 @@ namespace GolfClubReservationSystem.Pages
             if (reader.Read())
             {
                 MemberName = reader["MemberName"].ToString();
+                MembershipLevel = reader["MembershipLevel"].ToString();
+
                 TempData["MemberName"] = MemberName;
+                TempData["MembershipLevel"] = MembershipLevel;
+
                 Message = "Member details fetched successfully.";
             }
             else
@@ -110,7 +115,17 @@ namespace GolfClubReservationSystem.Pages
                 return;
             }
 
-            // Validate date range (today to 7 days from today)
+            using (SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                string levelQuery = "SELECT MembershipLevel FROM Member WHERE MemberId = @MemberId";
+                using SqlCommand cmd = new SqlCommand(levelQuery, connection);
+                cmd.Parameters.AddWithValue("@MemberId", MemberId);
+                connection.Open();
+                var result = cmd.ExecuteScalar();
+                if (result != null) MembershipLevel = result.ToString();
+                connection.Close();
+            }
+
             var today = DateTime.Today;
             var maxDate = today.AddDays(7);
             if (Date < today || Date > maxDate)
@@ -119,30 +134,26 @@ namespace GolfClubReservationSystem.Pages
                 return;
             }
 
-            // Validate membership-specific time window
-            bool isValidTime = MembershipLevel switch
+            if (!IsTimeValidForMember(MembershipLevel, Date, Time))
             {
-                "Gold" => Time >= new TimeSpan(9, 0, 0) && Time <= new TimeSpan(19, 0, 0),
-                "Silver" => (Time >= new TimeSpan(9, 0, 0) && Time <= new TimeSpan(15, 0, 0)) ||
-                            (Time >= new TimeSpan(17, 30, 0) && Time <= new TimeSpan(19, 0, 0)),
-                "Bronze" => (Time >= new TimeSpan(9, 0, 0) && Time <= new TimeSpan(15, 0, 0)) ||
-                            (Time >= new TimeSpan(18, 0, 0) && Time <= new TimeSpan(19, 0, 0)),
-                _ => false
-            };
-
-            if (!isValidTime)
-            {
-                Message = $"Invalid time for {MembershipLevel} membership. Please choose a valid time.";
+                Message = $"Invalid time for this membership on this day. Please choose a valid time.";
                 return;
             }
 
-            using SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
-            string query = @"INSERT INTO BookTeeTime 
-                (MemberId, MemberName, MembershipLevel, StandingStatus, Date, Time, NumberOfPlayers, NumberOfCarts) 
-                VALUES 
-                (@MemberId, @MemberName, @MembershipLevel, @StandingStatus, @Date, @Time, @NumberOfPlayers, @NumberOfCarts)";
+            using SqlConnection connection2 = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+            string query = @"IF NOT EXISTS (SELECT 1 FROM BookTeeTime WHERE Date = @Date AND Time = @Time)
+                BEGIN
+                    INSERT INTO BookTeeTime 
+                    (MemberId, MemberName, MembershipLevel, StandingStatus, Date, Time, NumberOfPlayers, NumberOfCarts) 
+                    VALUES 
+                    (@MemberId, @MemberName, @MembershipLevel, @StandingStatus, @Date, @Time, @NumberOfPlayers, @NumberOfCarts)
+                END
+                ELSE
+                BEGIN
+                    RAISERROR('This time slot is already booked.', 16, 1);
+                END";
 
-            using SqlCommand command = new SqlCommand(query, connection);
+            using SqlCommand command = new SqlCommand(query, connection2);
             command.Parameters.AddWithValue("@MemberId", MemberId);
             command.Parameters.AddWithValue("@MemberName", MemberName);
             command.Parameters.AddWithValue("@MembershipLevel", MembershipLevel);
@@ -152,11 +163,44 @@ namespace GolfClubReservationSystem.Pages
             command.Parameters.AddWithValue("@NumberOfPlayers", NumberOfPlayers);
             command.Parameters.AddWithValue("@NumberOfCarts", NumberOfCarts);
 
-            connection.Open();
-            command.ExecuteNonQuery();
-            connection.Close();
+            try
+            {
+                connection2.Open();
+                command.ExecuteNonQuery();
+                Message = $"Tee time booked successfully for {MemberName} on {Date.ToShortDateString()} at {Time}.";
+            }
+            catch (SqlException ex)
+            {
+                Message = ex.Message;
+            }
+            finally
+            {
+                connection2.Close();
+            }
+        }
 
-            Message = $"Tee time booked successfully for {MemberName} on {Date.ToShortDateString()} at {Time}.";
+        private bool IsTimeValidForMember(string level, DateTime date, TimeSpan time)
+        {
+            var day = date.DayOfWeek;
+            bool isWeekend = day == DayOfWeek.Saturday || day == DayOfWeek.Sunday;
+            string membership = level?.Trim().ToLower();
+
+            return membership switch
+            {
+                "gold" => true,
+
+                "shareholder" => true,
+
+                "silver" => isWeekend
+                    ? time >= new TimeSpan(11, 0, 0)
+                    : (time < new TimeSpan(15, 0, 0) || time >= new TimeSpan(17, 30, 0)),
+
+                "bronze" => isWeekend
+                    ? time >= new TimeSpan(13, 0, 0) || time >= new TimeSpan(18, 0, 0)
+                    : (time < new TimeSpan(15, 0, 0)),
+
+                _ => false
+            };
         }
     }
 }
