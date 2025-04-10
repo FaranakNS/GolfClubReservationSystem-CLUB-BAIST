@@ -1,0 +1,31 @@
+﻿@page
+@model GolfClubReservationSystem.Pages.ViewMemberAccountModel
+@{
+}
+<h1>Member Account Details</h1>
+
+@if (Model.IsMemberFound)
+{
+    <div class="card">
+        <div class="card-body">
+            <p><strong>Member ID:</strong> @Model.Member.MemberID</p>
+            <p><strong>Name:</strong> @Model.Member.MemberName</p>
+            <p><strong>Occupation:</strong> @Model.Member.Occupation</p>
+            <p><strong>Company Name:</strong> @Model.Member.CompanyName</p>
+            <p><strong>Address:</strong> @Model.Member.Address</p>
+            <p><strong>Postal Code:</strong> @Model.Member.PostalCode</p>
+            <p><strong>Phone:</strong> @Model.Member.Phone</p>
+            <p><strong>Alternate Phone:</strong> @Model.Member.AlternatePhone</p>
+            <p><strong>Email:</strong> @Model.Member.Email</p>
+            <p><strong>Date of Birth:</strong> @Model.Member.DateOfBirth.ToShortDateString()</p>
+            <p><strong>Membership Level:</strong> @Model.Member.MembershipLevel</p>
+            <p><strong>Application Status:</strong> @Model.Member.ApplicationStatus</p>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-danger" role="alert">
+        @Model.Message
+    </div>
+}

@@ -1,63 +1,3 @@
-//using GolfClubReservationSystem.Models;
-//using GolfClubReservationSystem.TechnicalServices;
-//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.AspNetCore.Mvc.RazorPages;
-
-//namespace GolfClubReservationSystem.Pages
-//{
-//    public class RegisterModel : PageModel
-//    {
-//        private readonly RegisterServices _registerService;
-
-//        [BindProperty]
-//        public MembershipApplication Application { get; set; } = new();
-
-//        [TempData]
-//        public string StatusMessage { get; set; } = string.Empty;
-
-//        public RegisterModel(RegisterServices registerService)
-//        {
-//            _registerService = registerService;
-//        }
-
-//        public void OnGet()
-//        {
-
-//        }
-
-//        public IActionResult OnPost()
-//        {
-//            if (!ModelState.IsValid)
-//            {
-//                return Page();
-//            }
-
-//            try
-//            {
-//                bool success = _registerService.SubmitApplication(Application);
-
-//                if (success)
-//                {
-//                    // Clear form after successful submission
-//                    Application = new MembershipApplication();
-//                    StatusMessage = "Thank you! Your application has been submitted successfully.";
-//                }
-//                else
-//                {
-//                    StatusMessage = "Error submitting application. Please try again.";
-//                }
-//            }
-//            catch (Exception ex)
-//            {
-//                StatusMessage = $"Error: {ex.Message}";
-//            }
-
-//            return Page();
-//        }
-
-
-//    }
-//}
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
@@ -130,19 +70,19 @@ namespace GolfClubReservationSystem.Pages
             {
                 using (SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
                 {
-                    // Updated query includes MembershipLevel
-                    string query = "INSERT INTO Member (MemberName, Occupation, CompanyName, Address, PostalCode, Phone, AlternatePhone, Email, DateOfBirth, MembershipLevel) " +
+                    // Wrap the table name and column names in square brackets to avoid reserved word issues.
+                    string query = "INSERT INTO [Member] ([MemberName], [Occupation], [CompanyName], [Address], [PostalCode], [Phone], [AlternatePhone], [Email], [DateOfBirth], [MembershipLevel]) " +
                                    "VALUES (@MemberName, @Occupation, @CompanyName, @Address, @PostalCode, @Phone, @AlternatePhone, @Email, @DateOfBirth, @MembershipLevel)";
                     SqlCommand command = new SqlCommand(query, connection);
 
                     command.Parameters.AddWithValue("@MemberName", MemberName);
-                    command.Parameters.AddWithValue("@Occupation", Occupation ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@CompanyName", CompanyName ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@Address", Address ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@PostalCode", PostalCode ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@Occupation", string.IsNullOrEmpty(Occupation) ? (object)DBNull.Value : Occupation);
+                    command.Parameters.AddWithValue("@CompanyName", string.IsNullOrEmpty(CompanyName) ? (object)DBNull.Value : CompanyName);
+                    command.Parameters.AddWithValue("@Address", string.IsNullOrEmpty(Address) ? (object)DBNull.Value : Address);
+                    command.Parameters.AddWithValue("@PostalCode", string.IsNullOrEmpty(PostalCode) ? (object)DBNull.Value : PostalCode);
                     command.Parameters.AddWithValue("@Phone", Phone);
-                    command.Parameters.AddWithValue("@AlternatePhone", AlternatePhone ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@Email", Email ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@AlternatePhone", string.IsNullOrEmpty(AlternatePhone) ? (object)DBNull.Value : AlternatePhone);
+                    command.Parameters.AddWithValue("@Email", string.IsNullOrEmpty(Email) ? (object)DBNull.Value : Email);
                     command.Parameters.AddWithValue("@DateOfBirth", DateOfBirth);
                     command.Parameters.AddWithValue("@MembershipLevel", MembershipLevel);
 
@@ -154,11 +94,15 @@ namespace GolfClubReservationSystem.Pages
             }
             catch (SqlException sqlEx)
             {
+                // Log the detailed SQL error message for debugging.
                 Console.WriteLine($"SQL Error: {sqlEx.Message}");
-                Message = "An unexpected error occurred. Please try again with valid values.";
+                // Optionally, display the error message in a development environment:
+                Message = "SQL Error: " + sqlEx.Message;
             }
+
             catch (Exception ex)
             {
+                // Log the error message
                 Console.WriteLine($"Error: {ex.Message}");
                 Message = "An unexpected error occurred. Please try again with valid values.";
             }

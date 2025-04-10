@@ -1,0 +1,38 @@
+﻿@page
+@model GolfClubReservationSystem.Pages.ReviewMembershipModel
+@{
+}
+<h1>Review Membership Applications</h1>
+@if (Model.Applications.Count > 0)
+{
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Application ID</th>
+                <th>Member Name</th>
+                <th>Membership Level</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var app in Model.Applications)
+            {
+                <tr>
+                    <td>@app.ApplicationID</td>
+                    <td>@app.MemberName</td>
+                    <td>@app.MembershipLevel</td>
+                    <td>@app.Email</td>
+                    <td>@app.Phone</td>
+                    <td>@app.ApplicationStatus</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No new membership applications requiring review.</p>
+}
+

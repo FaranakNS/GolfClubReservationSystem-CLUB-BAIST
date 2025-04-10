@@ -1,0 +1,151 @@
+﻿@* @page *@
+@* @model GolfClubReservationSystem.Pages.RecordPlayerScoreModel *@
+@* @{ *@
+@*     Layout = "_Layout";  // Ensure your layout is correctly referenced. *@
+@*     ViewData["Title"] = "Record Player Score"; *@
+@* } *@
+@* <!-- Inline styles for the dark golf club theme --> *@
+@* <style> *@
+@*     /* Global Body Styling */ *@
+@*     body { *@
+@*         background-color: #000; *@
+@*         color: #eee; *@
+@*     } *@
+@*     /* Form Container */ *@
+@*     .form-container { *@
+@*         background-color: #222; *@
+@*         border: 1px solid #444; *@
+@*         padding: 20px; *@
+@*         border-radius: 8px; *@
+@*         max-width: 600px; *@
+@*         margin: auto; *@
+@*     } *@
+
+@*     h2 { *@
+@*         color: #ffc107; /* Yellow */ *@
+@*         text-align: center; *@
+@*         margin-bottom: 20px; *@
+@*     } *@
+@*     /* Form Input Elements */ *@
+@*     .form-control { *@
+@*         background-color: #333; *@
+@*         color: #eee; *@
+@*         border: 1px solid #444; *@
+@*         padding: 8px; *@
+@*         border-radius: 4px; *@
+@*         width: 100%; *@
+@*     } *@
+
+@*         .form-control:focus { *@
+@*             background-color: #333; *@
+@*             color: #eee; *@
+@*             border-color: #ffc107; *@
+@*             box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25); *@
+@*         } *@
+@*     /* Labels */ *@
+@*     .form-label { *@
+@*         color: #eee; *@
+@*         margin-bottom: 5px; *@
+@*         display: block; *@
+@*     } *@
+@*     /* Buttons */ *@
+@*     .btn { *@
+@*         background-color: #ffc107; /* Yellow */ *@
+@*         color: #000; /* Black Text */ *@
+@*         border: none; *@
+@*         padding: 10px 15px; *@
+@*         border-radius: 4px; *@
+@*         cursor: pointer; *@
+@*         width: 100%; *@
+@*     } *@
+
+@*         .btn:hover { *@
+@*             background-color: #e0a800; *@
+@*         } *@
+@*     /* Divider */ *@
+@*     hr { *@
+@*         border-top: 1px solid #444; *@
+@*         margin: 20px 0; *@
+@*     } *@
+@*     /* Validation and Error Messages */ *@
+@*     .text-danger { *@
+@*         color: #ff6b6b; *@
+@*         font-size: 0.9em; *@
+@*     } *@
+
+@*     .message { *@
+@*         text-align: center; *@
+@*         margin-top: 20px; *@
+@*         font-size: 1.1em; *@
+@*     } *@
+@* </style> *@
+
+@* <div class="container my-5"> *@
+@*     <div class="form-container"> *@
+@*         <h2>Fetch Member for Score Entry</h2> *@
+@*         <!-- Form to fetch member details based on MemberName --> *@
+@*         <form method="post" asp-page-handler="FetchMember"> *@
+@*             <div> *@
+@*                 <label asp-for="Scorecard.MemberName" class="form-label"></label> *@
+@*                 <input asp-for="Scorecard.MemberName" class="form-control" placeholder="Enter your name" /> *@
+@*                 <span asp-validation-for="Scorecard.MemberName" class="text-danger"></span> *@
+@*             </div> *@
+@*             <button type="submit" name="submit" value="FetchMember" class="btn" style="margin-top:10px;">Find Member</button> *@
+@*         </form> *@
+
+@*         <hr /> *@
+
+@*         @if (Model.FetchDetails != null) *@
+@*         { *@
+@*             <!-- The member was successfully fetched; display their info and show the full score entry form --> *@
+@*             <form method="post" asp-page-handler="RecordScore"> *@
+@*                 <!-- Hidden field storing the fetched MemberID --> *@
+@*                 <input type="hidden" asp-for="Scorecard.MemberID" /> *@
+
+@*                 <div> *@
+@*                     <label class="form-label">Fetched Member:</label> *@
+@*                     <input type="text" class="form-control" value="@Model.FetchDetails.MemberName (ID: @Model.FetchDetails.MemberID)" readonly /> *@
+@*                 </div> *@
+
+@*                 <div style="margin-top:15px;"> *@
+@*                     <label asp-for="Scorecard.Date" class="form-label"></label> *@
+@*                     <input asp-for="Scorecard.Date" type="date" class="form-control" /> *@
+@*                     <span asp-validation-for="Scorecard.Date" class="text-danger"></span> *@
+@*                 </div> *@
+@*                 <div style="margin-top:15px;"> *@
+@*                     <label asp-for="Scorecard.GolfCourse" class="form-label"></label> *@
+@*                     <input asp-for="Scorecard.GolfCourse" class="form-control" placeholder="Enter golf course" /> *@
+@*                     <span asp-validation-for="Scorecard.GolfCourse" class="text-danger"></span> *@
+@*                 </div> *@
+@*                 <div style="margin-top:15px;"> *@
+@*                     <label asp-for="Scorecard.CourseRating" class="form-label"></label> *@
+@*                     <input asp-for="Scorecard.CourseRating" type="number" step="0.1" class="form-control" placeholder="e.g., 68.5" /> *@
+@*                     <span asp-validation-for="Scorecard.CourseRating" class="text-danger"></span> *@
+@*                 </div> *@
+@*                 <div style="margin-top:15px;"> *@
+@*                     <label asp-for="Scorecard.SlopeRating" class="form-label"></label> *@
+@*                     <input asp-for="Scorecard.SlopeRating" type="number" class="form-control" placeholder="e.g., 113" /> *@
+@*                     <span asp-validation-for="Scorecard.SlopeRating" class="text-danger"></span> *@
+@*                 </div> *@
+@*                 <div style="margin-top:15px;"> *@
+@*                     <label asp-for="Scorecard.TotalScore" class="form-label"></label> *@
+@*                     <input asp-for="Scorecard.TotalScore" type="number" class="form-control" placeholder="Enter total score" /> *@
+@*                     <span asp-validation-for="Scorecard.TotalScore" class="text-danger"></span> *@
+@*                 </div> *@
+@*                 <div style="margin-top:15px;"> *@
+@*                     <label asp-for="Scorecard.HoleScores" class="form-label"></label> *@
+@*                     <input asp-for="Scorecard.HoleScores" class="form-control" placeholder="e.g., 4,5,3,4,..." /> *@
+@*                     <span asp-validation-for="Scorecard.HoleScores" class="text-danger"></span> *@
+@*                 </div> *@
+
+@*                 <button type="submit" name="submit" value="RecordScore" class="btn" style="margin-top:20px;">Submit Score</button> *@
+@*             </form> *@
+@*         } *@
+@*     </div> *@
+@* </div> *@
+
+@* <div class="message">@Model.Message</div> *@
+
+@* @section Scripts { *@
+@*     <partial name="_ValidationScriptsPartial" /> *@
+@* } *@

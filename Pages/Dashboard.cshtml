@@ -97,6 +97,7 @@
                 <li><a asp-page="/BookTeeTime">Book Tee Time</a></li>
                 <li><a asp-page="/UpdateTeeTime">Manage Tee Time</a></li>
                 <li><a asp-page="/RecordPlayerScore">Record Score</a></li>
+                <li><a asp-page="/PlayerHandicap">View Handicap </a></li>
             }
             else if (Model.UserRole == "pro shop staff")
             {
@@ -107,8 +108,9 @@
             {
                 <li><a asp-page="/BookTeeTime">Book Tee Time</a></li>
                 <li><a asp-page="/UpdateTeeTime">Manage Tee Time</a></li>
-                
-                <li><a asp-page="/ViewPlayerHandicap">View Handicap</a></li>
+
+
+                <li><a asp-page="/PlayerHandicap">View Handicap </a></li>
             }
             else if (Model.UserRole == "member")
             {
@@ -129,6 +131,7 @@
                 <li><a asp-page="/BookTeeTime">Book Tee Time</a></li>
                 <li><a asp-page="/UpdateTeeTime">Manage Tee Time</a></li>
                 <li><a asp-page="/RecordPlayerScore">Record Score</a></li>
+                <li><a asp-page="/PlayerHandicap">View Handicap </a></li>
             }
             else
             {

@@ -1,0 +1,109 @@
+﻿@page
+@model GolfClubReservationSystem.Pages.PlayerHandicapModel
+@{
+    Layout = "_Layout";  // Ensure that your layout file name is correct.
+    ViewData["Title"] = "View Player Handicap";
+}
+<!-- Inline CSS for custom theme -->
+<style>
+    /* Set dark background for the whole page */
+    body {
+        background-color: #000;
+        color: #eee; /* Light gray for readability on dark background */
+    }
+
+    /* Card styling with dark background and subtle border */
+    .card {
+        background-color: #222;
+        border: 1px solid #444;
+    }
+
+    /* Card header with a golf-themed green and yellow text */
+    .card-header {
+        background-color: #1e7e34; /* A solid green */
+        color: #ffc107; /* Yellow accent */
+    }
+
+    /* Custom button styling with yellow background and black text */
+    .btn-custom {
+        background-color: #ffc107; /* Yellow */
+        color: #000; /* Black text */
+        border: none;
+    }
+
+        .btn-custom:hover {
+            background-color: #e0a800; /* Slightly darker yellow */
+        }
+
+    /* Input field adjustments for dark theme */
+    .form-control {
+        background-color: #333;
+        color: #eee;
+        border: 1px solid #444;
+    }
+
+        .form-control:focus {
+            background-color: #333;
+            color: #eee;
+            border-color: #ffc107;
+            box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+        }
+
+    /* Error alert overrides */
+    .alert {
+        background-color: #dc3545;
+        color: #fff;
+    }
+</style>
+
+<div class="container my-5">
+    <div class="card shadow">
+        <!-- Card Header -->
+        <div class="card-header text-center">
+            <h1 class="card-title">View Player Handicap</h1>
+        </div>
+
+        <!-- Card Body for the Form -->
+        <div class="card-body">
+            <form method="post">
+                <div class="mb-3">
+                    <label asp-for="MemberId" class="form-label"></label>
+                    <input asp-for="MemberId" class="form-control" />
+                    <span asp-validation-for="MemberId" class="text-danger"></span>
+                </div>
+                <button type="submit" name="submit" value="Fetch" class="btn btn-custom w-100">
+                    Fetch Handicap
+                </button>
+            </form>
+        </div>
+
+        <!-- Display handicap details if available -->
+        @if (Model.HandicapCalculated)
+        {
+            <div class="card-body border-top border-secondary">
+                <h3>Handicap Details for Member ID: @Model.MemberId</h3>
+                <p><strong>Total Rounds Considered:</strong> @Model.RoundsCount</p>
+                <p>
+                    <strong>Average Differential (Best 8 rounds):</strong>
+                    @Model.Best8AverageDifferential:F2
+                </p>
+                <p>
+                    <strong>Calculated Handicap Index:</strong>
+                    @Model.HandicapIndex:F2
+                </p>
+            </div>
+        }
+
+        <!-- Display error message if any -->
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger m-3">
+                @Model.ErrorMessage
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
