@@ -1,11 +1,75 @@
 ﻿@page
 @model GolfClubReservationSystem.Pages.MembershipCommitteModel
 @{
+    Layout = "_Layout";
+    ViewData["Title"] = "Membership Committee Dashboard";
 }
-<h1>Membership Committee Dashboard</h1>
-<p>Welcome, @Model.Username</p>
-<div>
-    <a asp-page="/MembershipRecord"><button>Membership Record</button></a>
-    <a asp-page="/ReviewMembership"><button>Review Membership</button></a>
-</div>
 
+
+<!-- Inline CSS for a consistent dark themed layout -->
+<style>
+    body {
+        background-color: #000;
+        color: #eee;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    .dashboard-container {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 20px;
+        background-color: #222;
+        border: 1px solid #444;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.7);
+    }
+    .dashboard-header {
+        background-color: #1e7e34; /* Green */
+        color: #ffc107;           /* Yellow */
+        padding: 15px;
+        border-radius: 6px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    h1 {
+        margin: 0;
+        font-size: 2em;
+    }
+    .welcome-msg {
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 1.2em;
+    }
+    .button-group {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+    .btn-custom {
+        background-color: #ffc107;  /* Yellow */
+        color: #000;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+    .btn-custom:hover {
+        background-color: #e0a800;
+    }
+</style>
+
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h1>Membership Committee Dashboard</h1>
+    </div>
+    <p class="welcome-msg">Welcome, @Model.Username</p>
+    <div class="button-group">
+        <a asp-page="/MembershipRecord" class="btn-custom">Membership Record</a>
+        <a asp-page="/ReviewMembership" class="btn-custom">Review Membership</a>
+    </div>
+</div>

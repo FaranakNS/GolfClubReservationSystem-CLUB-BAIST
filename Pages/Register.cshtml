@@ -1,99 +1,192 @@
 ﻿@page
 @model GolfClubReservationSystem.Pages.RegisterModel
 @{
+    Layout = "_Layout";
     ViewData["Title"] = "Register";
 }
 
+<!-- Inline CSS for a responsive dark golf club theme with scrollable card -->
+<style>
+    /* Global Body Styling */
+    body {
+        background: #000;
+        color: #eee;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
 
-<h1>Register</h1>
-<form method="post">
-    <table>
-        <tr>
-            <td><label asp-for="MemberName"></label></td>
-            <td>
-                <input asp-for="MemberName" />
-                <span asp-validation-for="MemberName"></span>
-            </td>
-        </tr>
-        <tr>
-            <td><label asp-for="Occupation"></label></td>
-            <td>
-                <input asp-for="Occupation" />
-                <span asp-validation-for="Occupation"></span>
-            </td>
-        </tr>
-        <tr>
-            <td><label asp-for="CompanyName"></label></td>
-            <td>
-                <input asp-for="CompanyName" />
-                <span asp-validation-for="CompanyName"></span>
-            </td>
-        </tr>
-        <tr>
-            <td><label asp-for="Address"></label></td>
-            <td>
-                <input asp-for="Address" />
-                <span asp-validation-for="Address"></span>
-            </td>
-        </tr>
-        <tr>
-            <td><label asp-for="PostalCode"></label></td>
-            <td>
-                <input asp-for="PostalCode" />
-                <span asp-validation-for="PostalCode"></span>
-            </td>
-        </tr>
-        <tr>
-            <td><label asp-for="Phone"></label></td>
-            <td>
-                <input asp-for="Phone" />
-                <span asp-validation-for="Phone"></span>
-            </td>
-        </tr>
-        <tr>
-            <td><label asp-for="AlternatePhone"></label></td>
-            <td>
-                <input asp-for="AlternatePhone" />
-                <span asp-validation-for="AlternatePhone"></span>
-            </td>
-        </tr>
-        <tr>
-            <td><label asp-for="Email"></label></td>
-            <td>
-                <input asp-for="Email" />
-                <span asp-validation-for="Email"></span>
-            </td>
-        </tr>
-        <tr>
-            <td><label asp-for="DateOfBirth"></label></td>
-            <td>
-                <input asp-for="DateOfBirth" type="date" />
-                <span asp-validation-for="DateOfBirth"></span>
-            </td>
-        </tr>
-        <tr>
-            <td><label asp-for="MembershipLevel"></label></td>
-            <td>
-                <select asp-for="MembershipLevel">
+    /* Card Container */
+    .card {
+        width: 90%;
+        max-width: 500px;
+        margin: 40px auto;
+        background-color: #222;
+        border: 1px solid #444;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.7);
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Card Header */
+    .card-header {
+        background-color: #1e7e34; /* Green */
+        color: #ffc107; /* Yellow */
+        text-align: center;
+        padding: 20px;
+        border-radius: 8px 8px 0 0;
+        font-size: 1.8rem;
+        font-weight: bold;
+        flex-shrink: 0; /* ensures header won't shrink if content is large */
+    }
+
+    /* Scrollable Card Body */
+    .card-body {
+        padding: 20px;
+        overflow-y: auto; /* vertical scrollbar */
+        max-height: 70vh; /* adjust as needed to limit form height */
+        box-sizing: border-box;
+        flex-grow: 1; /* let the body expand/fill space */
+    }
+
+    /* Form Groups */
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #eee;
+        }
+
+    .form-control {
+        width: 100%;
+        background-color: #333;
+        color: #eee;
+        border: 1px solid #444;
+        border-radius: 4px;
+        padding: 8px;
+        box-sizing: border-box;
+    }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #ffc107;
+            box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+        }
+
+    /* Drop-down style consistent with inputs */
+    select.form-control {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http://www.w3.org/2000/svg%27%20width%3D%2712%27%20height%3D%276%27%3E%3Cpath%20fill%3D%27%23ffc107%27%20d%3D%27M0%200l6%206l6-6%27/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        background-size: 12px 6px;
+    }
+
+    .text-danger {
+        color: #ff6b6b;
+        font-size: 0.9em;
+    }
+
+    /* Submit Button */
+    .btn-submit {
+        width: 100%;
+        background-color: #ffc107; /* Yellow */
+        color: #000;
+        border: none;
+        padding: 10px;
+        font-weight: bold;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 10px;
+        text-transform: uppercase;
+    }
+
+        .btn-submit:hover {
+            background-color: #e0a800;
+        }
+
+    /* Message styling */
+    .message {
+        color: green;
+        text-align: center;
+        margin-top: 15px;
+        font-weight: bold;
+    }
+</style>
+
+<div class="card">
+    <div class="card-header">
+        Register
+    </div>
+    <div class="card-body">
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="MemberName"></label>
+                <input asp-for="MemberName" class="form-control" placeholder="Enter your full name" />
+                <span asp-validation-for="MemberName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Occupation"></label>
+                <input asp-for="Occupation" class="form-control" placeholder="Occupation" />
+                <span asp-validation-for="Occupation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CompanyName"></label>
+                <input asp-for="CompanyName" class="form-control" placeholder="Company Name" />
+                <span asp-validation-for="CompanyName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address"></label>
+                <input asp-for="Address" class="form-control" placeholder="Address" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PostalCode"></label>
+                <input asp-for="PostalCode" class="form-control" placeholder="Postal Code" />
+                <span asp-validation-for="PostalCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Phone"></label>
+                <input asp-for="Phone" class="form-control" placeholder="Phone" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AlternatePhone"></label>
+                <input asp-for="AlternatePhone" class="form-control" placeholder="Alternate Phone" />
+                <span asp-validation-for="AlternatePhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" placeholder="Email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateOfBirth"></label>
+                <input asp-for="DateOfBirth" type="date" class="form-control" />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MembershipLevel"></label>
+                <select asp-for="MembershipLevel" class="form-control">
                     <option value="">Select Membership Level</option>
                     <option value="Copper">Copper</option>
                     <option value="Bronze">Bronze</option>
                     <option value="Silver">Silver</option>
                     <option value="Gold">Gold</option>
                 </select>
-                <span asp-validation-for="MembershipLevel"></span>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <button type="submit">Register</button>
-            </td>
-        </tr>
-    </table>
-</form>
-
-<div style="color:green">
-    @Model.Message
+                <span asp-validation-for="MembershipLevel" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn-submit">Register</button>
+        </form>
+        <div class="message">
+            @Model.Message
+        </div>
+    </div>
 </div>
 
 @section Scripts {

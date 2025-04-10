@@ -71,7 +71,7 @@ namespace GolfClubReservationSystem.Pages
                 using (SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
                 {
                     // Wrap the table name and column names in square brackets to avoid reserved word issues.
-                    string query = "INSERT INTO [Member] ([MemberName], [Occupation], [CompanyName], [Address], [PostalCode], [Phone], [AlternatePhone], [Email], [DateOfBirth], [MembershipLevel]) " +
+                    string query = "INSERT INTO [Member_New] ([MemberName], [Occupation], [CompanyName], [Address], [PostalCode], [Phone], [AlternatePhone], [Email], [DateOfBirth], [MembershipLevel]) " +
                                    "VALUES (@MemberName, @Occupation, @CompanyName, @Address, @PostalCode, @Phone, @AlternatePhone, @Email, @DateOfBirth, @MembershipLevel)";
                     SqlCommand command = new SqlCommand(query, connection);
 

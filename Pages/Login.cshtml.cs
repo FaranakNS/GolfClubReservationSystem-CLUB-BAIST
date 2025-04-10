@@ -45,7 +45,7 @@ namespace GolfClubReservationSystem.Pages
 
                 if (users[Username].Role == "membership committee")
                 {
-                    return RedirectToPage("MembershipCommitteeDashboard");
+                    return RedirectToPage("MembershipCommitte");
                 }
                 else
                 {

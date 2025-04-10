@@ -18,6 +18,9 @@
         background: url('/images/club.webp') no-repeat center center fixed;
         background-size: cover;
         font-family: 'Segoe UI', sans-serif;
+        margin: 0;
+        padding: 0;
+        color: #f1f1f1;
     }
 
     h2 {
@@ -44,6 +47,7 @@
         font-size: 15px;
         background-color: #333;
         color: #f1f1f1;
+        box-sizing: border-box;
     }
 
     .button-group {
@@ -126,9 +130,10 @@
                 <span asp-validation-for="StandingStatus"></span>
             </div>
 
+            <!-- Date input is restricted to the next 7 days, including today -->
             <div>
                 <label asp-for="Date"></label>
-                <input asp-for="Date" type="date" />
+                <input asp-for="Date" type="date" min="@DateTime.Today.ToString("yyyy-MM-dd")" max="@DateTime.Today.AddDays(7).ToString("yyyy-MM-dd")" />
                 <span asp-validation-for="Date"></span>
             </div>
 
