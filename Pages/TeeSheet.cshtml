@@ -1,0 +1,128 @@
+﻿@page
+@model GolfClubReservationSystem.Pages.TeesheetModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Teesheet";
+}
+
+<!-- Inline CSS for dark golf club theme -->
+<style>
+    body {
+        background-color: #000;
+        color: #eee;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    /* Card container */
+    .card {
+        max-width: 900px;
+        margin: 40px auto;
+        background-color: #222;
+        border: 1px solid #444;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.7);
+        overflow-x: auto;
+    }
+
+    .card-header {
+        background-color: #1e7e34; /* Green */
+        color: #ffc107; /* Yellow */
+        padding: 20px;
+        text-align: center;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .card-title {
+        margin: 0;
+        font-size: 2rem;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    thead {
+        background-color: #1e7e34; /* Green header */
+        color: #ffc107; /* Yellow text */
+    }
+
+    th, td {
+        padding: 12px;
+        border: 1px solid #444;
+        text-align: left;
+    }
+
+    tbody tr:nth-child(odd) {
+        background-color: #2b2b2b;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #242424;
+    }
+
+    .message {
+        text-align: center;
+        margin-top: 20px;
+        font-weight: bold;
+        color: #ffc107;
+    }
+</style>
+
+<div class="card">
+    <div class="card-header">
+        <h1 class="card-title">Teesheet: All Tee Time Bookings</h1>
+    </div>
+    <div class="card-body">
+        @if (Model.Bookings != null && Model.Bookings.Count > 0)
+        {
+            <table>
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Member ID</th>
+                        <th>Member Name</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th># of Players</th>
+                        <th># of Carts</th>
+                        <th>Membership Level</th>
+                        <th>Standing Status</th>
+                        <th>Employee ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var booking in Model.Bookings)
+                    {
+                        <tr>
+                            <td>@booking.BookingId</td>
+                            <td>@booking.MemberID</td>
+                            <td>@booking.MemberName</td>
+                            <td>@booking.Date.ToString("yyyy-MM-dd")</td>
+                            <td>@booking.Time</td>
+                            <td>@booking.NumberOfPlayers</td>
+                            <td>@booking.NumberOfCarts</td>
+                            <td>@booking.MembershipLevel</td>
+                            <td>@booking.StandingStatus</td>
+                            <td>@booking.EmployeeID</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p class="message">No tee time bookings found.</p>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -102,15 +102,16 @@
             }
             else if (Model.UserRole == "pro shop staff")
             {
-                <li><a asp-page="/BookTeeTime">Book Tee Time</a></li>
+          
                 <li><a asp-page="/ModifyTeeTime">Update Tee Time</a></li>
+                <li><a asp-page="/TeeSheet">View Tee Sheet </a></li>
             }
             else if (Model.UserRole == "clerk")
             {
                 <li><a asp-page="/BookTeeTime">Book Tee Time</a></li>
                 <li><a asp-page="/UpdateTeeTime">Manage Tee Time</a></li>
                 <li><a asp-page="/MemberScores">View Scores </a></li>
-
+                <li><a asp-page="/TeeSheet">View Tee Sheet </a></li>
 
                 <li><a asp-page="/PlayerHandicap">View Handicap </a></li>
             }
