@@ -1,0 +1,161 @@
+﻿@page
+@model GolfClubReservationSystem.Pages.StandingTeeTimeBookingModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Standing Tee Time Requests";
+}
+
+<!-- Inline CSS for dark golf club theme -->
+<style>
+    body {
+        background-color: #000;
+        color: #eee;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .card {
+        max-width: 900px;
+        margin: 40px auto;
+        background-color: #222;
+        border: 1px solid #444;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+        overflow-x: auto;
+    }
+
+    .card-header {
+        background-color: #1e7e34;
+        color: #ffc107;
+        padding: 20px;
+        text-align: center;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .card-title {
+        margin: 0;
+        font-size: 2rem;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    thead {
+        background-color: #1e7e34;
+        color: #ffc107;
+    }
+
+    th, td {
+        padding: 12px;
+        border: 1px solid #444;
+        text-align: left;
+    }
+
+    tbody tr:nth-child(odd) {
+        background-color: #2b2b2b;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #242424;
+    }
+
+    .btn-custom {
+        background-color: #ffc107;
+        color: #000;
+        padding: 6px 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-right: 5px;
+        font-size: 0.9rem;
+    }
+
+        .btn-custom:hover {
+            background-color: #e0a800;
+        }
+
+    .message {
+        text-align: center;
+        margin-top: 20px;
+        font-weight: bold;
+        color: #ffc107;
+    }
+</style>
+
+<div class="card">
+    <div class="card-header">
+        <h1 class="card-title">Standing Tee Time Requests</h1>
+    </div>
+    <div class="card-body">
+        @if (Model.Requests != null && Model.Requests.Count > 0)
+        {
+            <table>
+                <thead>
+                    <tr>
+                        <th>Request ID</th>
+                        <th>Member ID</th>
+                        <th>Member Name</th>
+                        <th>Member ID2</th>
+                        <th>Member Name2</th>
+                        <th>Member ID3</th>
+                        <th>Member Name3</th>
+                        <th>Member ID4</th>
+                        <th>Member Name4</th>
+                        <th>Requested Day</th>
+                        <th>Tee Time</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var req in Model.Requests)
+                    {
+                        <tr>
+                            <td>@req.StandingTeeTimeID</td>
+                            <td>@req.MemberID</td>
+                            <td>@req.MemberName</td>
+                            <td>@req.MemberID2</td>
+                            <td>@req.MemberName2</td>
+                            <td>@req.MemberID3</td>
+                            <td>@req.MemberName3</td>
+                            <td>@req.MemberID4</td>
+                            <td>@req.MemberName4</td>
+                            <td>@req.RequestedDayOfWeek</td>
+                            <td>@req.RequestedTeeTime</td>
+                            <td>@req.RequestedStartDate.ToString("yyyy-MM-dd")</td>
+                            <td>@req.RequestedEndDate.ToString("yyyy-MM-dd")</td>
+                            <td>
+                           
+                                <!-- Reject button -->
+                                <form method="post" asp-page-handler="Reject" style="display:inline">
+                                    <input type="hidden" name="standingTeeTimeID" value="@req.StandingTeeTimeID" />
+                                    <button type="submit" class="btn-custom" onclick="return confirm('Reject this request?');">
+                                        Reject
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p class="message">No standing tee time requests found.</p>
+        }
+        <div class="message">@Model.Message</div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
